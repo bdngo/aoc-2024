@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let fname = &args[1];
     let contents = fs::read_to_string(fname)?;
 
-    let solution = day03::part2(contents);
+    let solution = day04::part1(contents);
     println!("{}", solution);
 
     Ok(())
