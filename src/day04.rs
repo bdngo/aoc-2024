@@ -8,12 +8,11 @@ pub fn part1(input: String) -> u64 {
         .map(|x| x.chars().collect::<Vec<char>>())
         .collect();
     // pad word_search
+    let word_search_r = word_search.len();
+    let word_search_c = word_search[0].len();
     for _ in 0..XMAS.len() {
-        word_search.insert(
-            0,
-            vec![SENTINEL_CHAR; word_search[0].len() + 2 * XMAS.len()],
-        );
-        word_search.push(vec![SENTINEL_CHAR; word_search[0].len() + 2 * XMAS.len()]);
+        word_search.insert(0, vec![SENTINEL_CHAR; word_search_c + 2 * XMAS.len()]);
+        word_search.push(vec![SENTINEL_CHAR; word_search_c + 2 * XMAS.len()]);
     }
     let word_search = word_search
         .into_iter()
@@ -26,7 +25,8 @@ pub fn part1(input: String) -> u64 {
         })
         .collect::<Vec<_>>();
     println!("{:?}", word_search);
-    for (row_idx, row) in word_search.iter().enumerate().skip(XMAS.len()) {
+    for row_idx in XMAS.len()..XMAS.len() + word_search_r {
+        let row = word_search[row_idx].clone();
         // horizontal forwards & backwards check
         for window in row.windows(XMAS.len()) {
             if &window.iter().collect::<String>() == XMAS
@@ -37,7 +37,7 @@ pub fn part1(input: String) -> u64 {
         }
 
         // vertical & diagonal check
-        for (char_idx, _) in row.iter().enumerate().skip(XMAS.len()) {
+        for char_idx in XMAS.len()..XMAS.len() + word_search_c {
             let mut vertical_window: Vec<char> = Vec::new();
             for i in 0..XMAS.len() {
                 vertical_window.push(word_search[row_idx + i][char_idx]);
@@ -55,7 +55,10 @@ pub fn part1(input: String) -> u64 {
             }
             if &diagonal_down_window.iter().collect::<String>() == XMAS
                 || &diagonal_down_window.iter().rev().collect::<String>() == XMAS
-                || &diagonal_up_window.iter().collect::<String>() == XMAS
+            {
+                num_xmas += 1;
+            }
+            if &diagonal_up_window.iter().collect::<String>() == XMAS
                 || &diagonal_up_window.iter().rev().collect::<String>() == XMAS
             {
                 num_xmas += 1;
