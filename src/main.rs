@@ -11,7 +11,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let fname = &args[1];
     let contents = fs::read_to_string(fname)?;
 
-    let solution = day05::part1(contents);
+    let solution = day05::part2(contents);
     println!("{}", solution);
 
     Ok(())
