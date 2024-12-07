@@ -6,13 +6,14 @@ pub mod day03;
 pub mod day04;
 pub mod day05;
 pub mod day06;
+pub mod day07;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = env::args().collect();
     let fname = &args[1];
     let contents = fs::read_to_string(fname)?;
 
-    let solution = day06::part2(contents);
+    let solution = day07::part2(contents);
     println!("{}", solution);
 
     Ok(())
